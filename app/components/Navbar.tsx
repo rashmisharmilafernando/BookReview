@@ -9,7 +9,7 @@ export default function Navbar() {
         setIsMobileMenuOpen(!isMobileMenuOpen);
     };
     return (
-        <header className="fixed   justify-between w-full bg-white shadow-md z-50">
+        <header className="fixed  justify-between w-full bg-white shadow-md z-50">
             <button
                 type="button"
                 className="md:hidden p-2"
@@ -25,11 +25,15 @@ export default function Navbar() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
                 </svg>
             </button>
-            <nav className={`md:flex md:justify-between md:items-center text-sm p-3 ${isMobileMenuOpen ? 'block' : 'hidden'} md:block`}>
+            <nav className={` md:flex md:justify-between md:items-center text-sm p-3 ${isMobileMenuOpen ? 'block' : 'hidden'} md:block`}>
                 <Link href="/">
                     <img src={logo.src} alt="Logo" width={50} height={50} />
                 </Link><br></br>
-                
+
+
+               <button type="button" className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-white focus:outline-none bg-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100">Add New Review</button>
+
+
             </nav>
         </header>
     );

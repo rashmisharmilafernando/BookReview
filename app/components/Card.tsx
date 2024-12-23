@@ -2,7 +2,7 @@ import React from 'react';
 
 interface BookReviewCardProps {
   book: {
-    id: string; // Unique ID for each book review
+    id: string;  
     title: string;
     author: string;
     rating: number;

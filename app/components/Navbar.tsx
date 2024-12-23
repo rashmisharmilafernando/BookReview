@@ -29,11 +29,6 @@ export default function Navbar() {
                 <Link href="/">
                     <img src={logo.src} alt="Logo" width={50} height={50} />
                 </Link><br></br>
-
-
-               <button type="button" className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-white focus:outline-none bg-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100">Add New Review</button>
-
-
             </nav>
         </header>
     );

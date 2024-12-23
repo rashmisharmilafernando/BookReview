@@ -3,7 +3,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import './assets/css/style.css';
 import axios from 'axios';
-import mainImage from '../app/assets/mainImg.png'; 
+import mainImage from '../app/assets/mainImg.png';
 import { useEffect, useState } from 'react';
 import BookReviewCard from './components/Card';
 
@@ -88,9 +88,14 @@ export default function Home() {
 
       {/* Card Section */}
       <section className="relative w-full flex items-center justify-center py-8">
-
         <div className="p-4">
           <h1 className="text-2xl font-bold mb-6 text-center">Book Reviews</h1>
+          <div className="flex justify-end mb-6">
+            <a href="/addnewreview" type="button" className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-white focus:outline-none bg-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100">Add New Review</a>
+
+          </div>
+
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {reviews.map((review) => (
               <BookReviewCard

@@ -30,13 +30,13 @@ const BookReviewCard: React.FC<BookReviewCardProps> = ({ book, onEdit, onDelete 
       <div className="mt-4 flex justify-end gap-2">
         <button
           onClick={() => onEdit(book.id)}
-          className="px-4 py-2 text-sm bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+          className="px-4 py-2 text-sm bg-blue-900 text-white hover:bg-blue-800"
         >
           Edit
         </button>
         <button
           onClick={() => onDelete(book.id)}
-          className="px-4 py-2 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600"
+          className="px-4 py-2 text-sm bg-red-900 text-white hover:bg-red-800"
         >
           Delete
         </button>

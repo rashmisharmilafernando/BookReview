@@ -6,10 +6,12 @@ import axios from 'axios';
 import mainImage from '../app/assets/mainImg.png';
 import { useEffect, useState } from 'react';
 import BookReviewCard from './components/Card';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 //Book review interface
-interface BookReview {
-  id: string;
+interface Data {
+  id: number;
   title: string;
   author: string;
   rating: number;
@@ -19,10 +21,11 @@ interface BookReview {
 
 
 export default function Home() {
+  const [data, setData] = useState<Data[]>([]);
 
-  const [reviews, setReviews] = useState<BookReview[]>([
+  const [reviews, setReviews] = useState<Data[]>([
     {
-      id: '1',
+      id: 1,
       title: 'The Great Gatsby',
       author: 'F. Scott Fitzgerald',
       rating: 5,
@@ -30,7 +33,7 @@ export default function Home() {
       dateAdded: new Date().toLocaleDateString(),
     },
     {
-      id: '2',
+      id: 2,
       title: 'To Kill a Mockingbird',
       author: 'Harper Lee',
       rating: 4,
@@ -38,7 +41,7 @@ export default function Home() {
       dateAdded: new Date().toLocaleDateString(),
     },
     {
-      id: '3',
+      id: 3,
       title: '1984',
       author: 'George Orwell',
       rating: 5,
@@ -46,7 +49,7 @@ export default function Home() {
       dateAdded: new Date().toLocaleDateString(),
     },
     {
-      id: '4',
+      id: 4,
       title: 'Moby Dick',
       author: 'Herman Melville',
       rating: 3,
@@ -55,23 +58,69 @@ export default function Home() {
     },
   ]);
 
-  const handleEdit = (id: string) => {
-    const reviewToEdit = reviews.find((review) => review.id === id);
-    if (reviewToEdit) {
-      const updatedReviewText = prompt('Edit your review:', reviewToEdit.reviewText);
-      if (updatedReviewText) {
-        setReviews((prevReviews) =>
-          prevReviews.map((review) =>
-            review.id === id ? { ...review, reviewText: updatedReviewText } : review
-          )
-        );
-      }
-    }
-  };
+  useEffect(() => {
+    getReviews();
+  }, []);
 
-  const handleDelete = (id: string) => {
-    setReviews((prevReviews) => prevReviews.filter((review) => review.id !== id));
+  const getReviews = () => {
+    const headers = {
+      'Content-Type': 'application/json',
+
+    }
+    axios.get("http://localhost:8097/GET/reviews", { headers: headers })
+      .then(r => {
+        setData(r.data.data);
+      })
+      .catch(e => {
+        Swal.fire({
+          icon: "error",
+          title: "Sorry!",
+          text: "Something went wrong"
+        });
+      })
+  }
+
+  const handleDelete = (review: Data) => {  
+    Swal.fire({
+      icon: "question",
+      title: "Are you sure to delete this?",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      customClass: {
+        confirmButton: 'bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-2',
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let id = review.id; // Use review.id instead of review._id
+        const headers = {
+          'Content-Type': 'application/json',
+        }
+  
+        axios.delete(`http://localhost:8097/DELETE/reviews/${id}`, { headers: headers })
+          .then(r => {
+            Swal.fire({
+              icon: "success",
+              title: "Success!",
+              text: "Review deleted successfully!"
+            });
+            getReviews(); // Refresh the reviews
+          })
+          .catch(e => {
+            Swal.fire({
+              icon: "error",
+              title: "Sorry!",
+              text: "Something went wrong"
+            });
+          })
+      }
+    });
   };
+  
+  function handleEdit(id: string): void {
+    <a href="/addnewreview" type="button" className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-white focus:outline-none bg-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100">Add New Review</a>
+
+  }
+
   return (
     <main>
       {/* Home Section */}
@@ -97,13 +146,16 @@ export default function Home() {
 
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {reviews.map((review) => (
+            {data.map((r: Data, index: number) => (
               <BookReviewCard
-                key={review.id}
-                book={review}
+                key={r.id}
+                title={r.title}
+                author={r.author}
+                rating={r.rating}
+                reviewText={r.reviewText}
+                dateAdded={r.dateAdded}
                 onEdit={handleEdit}
-                onDelete={handleDelete}
-              />
+                onDelete={handleDelete}   />
             ))}
           </div>
         </div>

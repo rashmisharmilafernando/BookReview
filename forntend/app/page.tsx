@@ -91,7 +91,7 @@ export default function Home() {
       },
     }).then((result) => {
       if (result.isConfirmed) {
-        let id = review.id; // Use review.id instead of review._id
+        let id = review.id;  
         const headers = {
           'Content-Type': 'application/json',
         }
@@ -103,7 +103,7 @@ export default function Home() {
               title: "Success!",
               text: "Review deleted successfully!"
             });
-            getReviews(); // Refresh the reviews
+            getReviews();  
           })
           .catch(e => {
             Swal.fire({
